@@ -11,7 +11,6 @@ describe('Testing Index', () => {
     it('response statusCode 200', () => {
       const indexRoute = new IndexRoute();
       const app = new App([indexRoute]);
-
       return request(app.getServer()).get(`${indexRoute.path}`).expect(200);
     });
   });
