@@ -68,6 +68,7 @@ export class BlockchainService {
     }
 
     this.transactionPool.push(transaction);
+    return transaction;
   }
 
   getLatestBlock() {
@@ -75,6 +76,10 @@ export class BlockchainService {
   }
 
   async minePendingTransactionsAsync(miningRewardAddress: string) {
+    if (this.transactionPool.length === 0) {
+      throw new HttpException(404, 'Transaction pool is empty');
+    }
+
     const rewardTx = new TransactionModel({
       fromAddress: '',
       toAddress: miningRewardAddress,
@@ -95,6 +100,8 @@ export class BlockchainService {
     this.mineBlock(block);
 
     this.blockchain.push(block);
+
+    return block;
   }
 
   mineBlock(block: BlockModel) {
@@ -102,5 +109,16 @@ export class BlockchainService {
       block.nonce++;
       block.hash = block.calculateHash();
     }
+  }
+
+  getTransactionsFromAddress(address: string): TransactionModel[] {
+    const transactions = [];
+    this.blockchain.forEach(block => {
+      const trans = block.transactions.filter(tx => tx.fromAddress === address || tx.toAddress === address);
+
+      transactions.push(...trans);
+    });
+
+    return transactions;
   }
 }

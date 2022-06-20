@@ -41,5 +41,5 @@ export type BlockShape = {
   previousHash?: string;
   timestamp?: number;
   nonce?: number;
-  transactions: TransactionModel[];
+  transactions?: TransactionModel[];
 };

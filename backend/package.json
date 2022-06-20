@@ -21,6 +21,7 @@
     "deploy:dev": "pm2 start ecosystem.config.js --only dev"
   },
   "dependencies": {
+    "@types/sqlite3": "^3.1.8",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.1",
@@ -38,6 +39,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "objection": "^2.2.15",
+    "sqlite3": "^5.0.8",
     "swagger-jsdoc": "^6.0.0",
     "swagger-ui-express": "^4.1.6",
     "winston": "^3.3.3",
