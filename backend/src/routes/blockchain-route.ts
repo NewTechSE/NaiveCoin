@@ -16,6 +16,8 @@ export class BlockchainRoute implements Routes {
 
     this.router.post(`${this.path}/transactions`, this.blockchainController.makeTransaction);
 
+    this.router.get(`${this.path}/pending-transactions`, this.blockchainController.getPendingTransactions);
+
     this.router.post(`${this.path}/mine`, validationMiddleware(MineBlockDto, 'body'), this.blockchainController.mineBlock);
   }
 }

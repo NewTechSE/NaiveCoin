@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { ec as EC } from 'elliptic';
 import { autoImplement } from '@/utils/util';
+import { HttpException } from '@/exceptions/HttpException';
 
 const ec = new EC('secp256k1');
 
@@ -52,5 +53,16 @@ export class TransactionModel extends autoImplement<TransactionShape>() {
 
     const publicKey = ec.keyFromPublic(this.fromAddress, 'hex');
     return publicKey.verify(this.calculateHash(), this.signature);
+  }
+
+  signTransaction(key: EC.KeyPair): void {
+    if (key.getPublic('hex') !== this.fromAddress) {
+      throw new HttpException(400, 'You cannot sign transactions for other wallets');
+    }
+
+    const hash = this.calculateHash();
+    const signature = key.sign(hash, 'hex');
+
+    this.signature = signature.toDER('hex');
   }
 }

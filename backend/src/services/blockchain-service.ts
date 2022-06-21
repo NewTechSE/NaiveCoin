@@ -1,29 +1,46 @@
 import { HttpException } from '@/exceptions/HttpException';
 import { TransactionModel } from '@/models/transaction-model';
 import { BlockModel } from '@models/block-model';
+import { ec as EC } from 'elliptic';
+
+const ec = new EC('secp256k1');
 
 export class BlockchainService {
   miningReward = 100;
   difficulty = 2;
+  key: EC.KeyPair;
 
-  blockchain: BlockModel[] = [this.createGenesisBlock()];
-  transactionPool: TransactionModel[] = [];
+  blockchain: BlockModel[];
+  transactionPool: TransactionModel[];
+
+  constructor() {
+    this.key = ec.genKeyPair();
+
+    this.blockchain = [this.createGenesisBlock()];
+    this.transactionPool = [this.createGenesisTransaction()];
+  }
 
   createGenesisBlock() {
-    const firstTx = new TransactionModel({
-      fromAddress: 'System',
-      toAddress: 'System',
-      amount: 100,
-    });
-
     return new BlockModel({
       id: 0,
       hash: '',
       previousHash: '',
       timestamp: 0,
       nonce: 0,
-      transactions: [firstTx],
+      transactions: [],
     });
+  }
+
+  createGenesisTransaction() {
+    const tx = new TransactionModel({
+      fromAddress: this.key.getPublic('hex'),
+      toAddress: this.key.getPublic('hex'),
+      amount: 4294967296,
+    });
+
+    tx.signTransaction(this.key);
+
+    return tx;
   }
 
   getBalanceFromAddress(address: string): number {
@@ -81,13 +98,14 @@ export class BlockchainService {
     }
 
     const rewardTx = new TransactionModel({
-      fromAddress: '',
+      fromAddress: this.key.getPublic('hex'),
       toAddress: miningRewardAddress,
       amount: this.miningReward,
       id: 0,
       timestamp: Date.now(),
       signature: '',
     });
+    rewardTx.signTransaction(this.key);
     this.transactionPool.push(rewardTx);
 
     const block = new BlockModel({
@@ -100,6 +118,8 @@ export class BlockchainService {
     this.mineBlock(block);
 
     this.blockchain.push(block);
+
+    this.transactionPool = [];
 
     return block;
   }

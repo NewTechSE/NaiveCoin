@@ -16,6 +16,16 @@ export class BlockchainController {
     }
   };
 
+  public getPendingTransactions = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const pendingTransactions: TransactionShape[] = this.blockchainService.transactionPool;
+
+      res.status(200).json({ data: { transactions: pendingTransactions }, message: 'Pending transactions' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getTransactions = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const publicKey: string = req.params.publicKey;
