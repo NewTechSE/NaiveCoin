@@ -15,7 +15,7 @@ export default function TransactionItem(props: ITransactionItemProps) {
     return (
       <PageHeader
         title={<Money amount={transaction.amount ?? 0} />}
-        extra={[moment(transaction.timestamp).format('MMMM Do YYYY, h:mm:ss a')]}
+        extra={[moment(transaction.timestamp).format('MMMM Do YYYY, h:mm:ss A')]}
       />
     );
   };

@@ -6,11 +6,13 @@ import { WalletPage } from './pages/wallet-page';
 import { BlockchainPage } from './pages/blockchain-page';
 import { ApiService } from './services/api-service';
 import { WalletStore } from './stores/wallet-store';
+import { BlockchainStore } from './stores/blockchain-store';
 
 const apiService = new ApiService();
 
 const contextValue = {
   walletStore: new WalletStore(apiService),
+  blockchainStore: new BlockchainStore(apiService),
 };
 export const StoreContext = createContext(contextValue);
 

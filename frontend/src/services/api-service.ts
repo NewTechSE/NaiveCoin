@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { IBlockModel } from '../models/block-model';
 import { ITransactionModel } from '../models/transaction-model';
 
 const HOST = 'http://localhost:3001/blockchain';
@@ -39,5 +40,13 @@ export class ApiService {
     const transactions: ITransactionModel[] = res.data.data.transactions;
 
     return transactions ?? [];
+  }
+
+  async getAllBlocks() {
+    const res = await axios.get(`${HOST}`);
+
+    const blocks: IBlockModel[] = res.data.data.blocks;
+
+    return blocks ?? [];
   }
 }

@@ -32,6 +32,7 @@ export class WalletStore {
 
   constructor(apiService: ApiService) {
     makeAutoObservable(this);
+
     this.apiService = apiService;
 
     const privateKey = localStorage.getItem('privateKey');
