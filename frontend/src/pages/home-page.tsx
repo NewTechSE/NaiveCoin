@@ -1,4 +1,4 @@
-import { AccountBookOutlined, BlockOutlined } from '@ant-design/icons';
+import { AccountBookOutlined, BlockOutlined, BuildOutlined } from '@ant-design/icons';
 import { Avatar, Layout, Menu } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
 import { useEffect } from 'react';
@@ -37,6 +37,10 @@ export const HomePage = () => {
 
             <Menu.Item key="blockchain" icon={<BlockOutlined />}>
               <Link to={'/blockchain'}>Blockchain</Link>
+            </Menu.Item>
+
+            <Menu.Item key="pending-transactions" icon={<BuildOutlined />}>
+              <Link to={'/pending-transactions'}>Pending Transactions</Link>
             </Menu.Item>
           </Menu>
         </div>

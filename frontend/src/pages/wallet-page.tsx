@@ -64,7 +64,7 @@ export function WalletPage(props: IWalletPageProps) {
 
       <div className="mx-auto w-75 shadow rounded p-4 m-3">
         <Tabs defaultActiveKey="1" animated>
-          <Tabs.TabPane tab="My Transactions" key="1">
+          <Tabs.TabPane tab="My Transactions History" key="1">
             <div>
               <Observer>
                 {() =>
@@ -77,7 +77,7 @@ export function WalletPage(props: IWalletPageProps) {
                       ) : (
                         <Space>
                           {walletStore.wallet.transactions.map((tx, index) => (
-                            <TransactionItem key={index} transaction={tx} />
+                            <TransactionItem key={index} transaction={tx} wallet={walletStore.wallet} />
                           ))}
                         </Space>
                       )}
@@ -87,7 +87,7 @@ export function WalletPage(props: IWalletPageProps) {
               </Observer>
             </div>
           </Tabs.TabPane>
-          <Tabs.TabPane tab="Pending Transactions" key="2">
+          <Tabs.TabPane tab="My Pending Transactions" key="2">
             <div>
               <Observer>
                 {() =>
@@ -96,9 +96,9 @@ export function WalletPage(props: IWalletPageProps) {
                   ) : walletStore.myPendingTransactions.length <= 0 ? (
                     <Empty />
                   ) : (
-                    <Space>
+                    <Space direction="vertical">
                       {walletStore.myPendingTransactions.map((tx, index) => (
-                        <TransactionItem key={index} transaction={tx} />
+                        <TransactionItem key={index} transaction={tx} wallet={walletStore.wallet} />
                       ))}
                     </Space>
                   )

@@ -13,6 +13,7 @@ export interface IBlockchainPageProps {}
 export function BlockchainPage(props: IBlockchainPageProps) {
   const storeContext = React.useContext(StoreContext);
   const blockchainStore = storeContext.blockchainStore;
+  const walletStore = storeContext.walletStore;
 
   useEffect(() => {
     blockchainStore.fetchBlocks();
@@ -70,9 +71,9 @@ export function BlockchainPage(props: IBlockchainPageProps) {
                 {selectedBlock === undefined || selectedBlock?.transactions.length <= 0 ? (
                   <Empty description="No Transaction" />
                 ) : (
-                  <Space>
+                  <Space direction="vertical">
                     {selectedBlock.transactions.map((tx, index) => (
-                      <TransactionItem key={index} transaction={tx} />
+                      <TransactionItem key={index} transaction={tx} wallet={walletStore.wallet} />
                     ))}
                   </Space>
                 )}

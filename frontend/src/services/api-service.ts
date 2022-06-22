@@ -49,4 +49,11 @@ export class ApiService {
 
     return blocks ?? [];
   }
+
+  async mineNewBlock(rewardAddrress: string) {
+    const res = await axios.post(`${HOST}/mine`, { publicKey: rewardAddrress });
+
+    const block: IBlockModel = res.data.data.block;
+    return block;
+  }
 }
