@@ -1,11 +1,17 @@
 import { AccountBookOutlined, BlockOutlined } from '@ant-design/icons';
 import { Avatar, Layout, Menu } from 'antd';
 import { Content, Header } from 'antd/lib/layout/layout';
-import { useRef } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 export const HomePage = () => {
-  const ref = useRef<Menu>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('HomePage: Auto go to wallet page');
+    navigate('/wallet');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleLogoClick() {
     document.querySelector<HTMLAnchorElement>('ul li[data-menu-id*="wallet"]')?.click();
@@ -24,7 +30,7 @@ export const HomePage = () => {
         </Link>
 
         <div className="flex-fill">
-          <Menu ref={ref} theme="dark" mode="horizontal" defaultSelectedKeys={['wallet']}>
+          <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['wallet']}>
             <Menu.Item key="wallet" icon={<AccountBookOutlined />}>
               <Link to={'/wallet'}>Wallet</Link>
             </Menu.Item>
@@ -36,7 +42,7 @@ export const HomePage = () => {
         </div>
       </Header>
 
-      <Content>
+      <Content className="bg-white">
         <Outlet />
       </Content>
     </Layout>
