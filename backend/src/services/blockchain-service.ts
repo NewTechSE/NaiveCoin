@@ -109,6 +109,7 @@ export class BlockchainService {
     this.transactionPool.push(rewardTx);
 
     const block = new BlockModel({
+      id: this.blockchain.length,
       previousHash: this.getLatestBlock().hash,
       timestamp: Date.now(),
       nonce: 0,
