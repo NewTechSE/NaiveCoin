@@ -2,6 +2,11 @@ import { computed, flow, makeAutoObservable, observable } from 'mobx';
 import { IWalletModel } from '../models/wallet-model';
 import { ec as EC } from 'elliptic';
 import { ApiService } from '../services/api-service';
+import {
+  calculateTransactionHash,
+  calculateTransactionSignature,
+  ITransactionModel,
+} from '../models/transaction-model';
 
 export class WalletStore {
   apiService: ApiService;
@@ -20,7 +25,17 @@ export class WalletStore {
 
   @computed
   get balance(): number {
-    return this.wallet?.transactions?.map(tx => tx.amount ?? 0).reduce((a, b) => a + b, 0) ?? 0;
+    let balance = 0;
+    this.wallet.transactions.forEach(tx => {
+      if (tx.fromAddress === this.keyPair.getPublic('hex')) {
+        balance -= tx.amount!;
+      }
+      if (tx.toAddress === this.keyPair.getPublic('hex')) {
+        balance += tx.amount!;
+      }
+    });
+
+    return balance;
   }
 
   @computed
@@ -69,5 +84,18 @@ export class WalletStore {
     setTimeout(() => {
       this.isLoadingPendingTransactions = false;
     }, 500);
+  }
+
+  async createTransaction(transaction: ITransactionModel) {
+    if (this.wallet.publicKey && this.wallet.publicKey !== transaction.fromAddress) {
+      throw new Error('You can only sign transactions from your own wallet');
+    }
+
+    const hash = calculateTransactionHash(transaction);
+    const signature = calculateTransactionSignature(this.keyPair, hash);
+    transaction.signature = signature;
+
+    const tx: ITransactionModel = await this.apiService.createTransaction(transaction);
+    return tx;
   }
 }

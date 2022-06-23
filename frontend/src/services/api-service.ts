@@ -56,4 +56,10 @@ export class ApiService {
     const block: IBlockModel = res.data.data.block;
     return block;
   }
+
+  async createTransaction(transaction: ITransactionModel) {
+    const res = await axios.post(`${HOST}/transactions`, transaction);
+
+    return res.data.data.transaction as ITransactionModel;
+  }
 }

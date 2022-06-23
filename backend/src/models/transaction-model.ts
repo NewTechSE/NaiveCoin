@@ -43,8 +43,16 @@ export class TransactionModel extends autoImplement<TransactionShape>() {
   }
 
   isValid(): boolean {
-    if (this.fromAddress === null || this.fromAddress === '') {
-      return true;
+    if (!this.fromAddress || this.fromAddress === '') {
+      return false;
+    }
+
+    if (!this.toAddress || this.toAddress === '') {
+      return false;
+    }
+
+    if (!this.amount) {
+      return false;
     }
 
     if (!this.signature || this.signature === '') {

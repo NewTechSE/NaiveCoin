@@ -7,7 +7,7 @@ import { BlockchainPage } from './pages/blockchain-page';
 import { ApiService } from './services/api-service';
 import { WalletStore } from './stores/wallet-store';
 import { BlockchainStore } from './stores/blockchain-store';
-import PendingTransactionsPage from './pages/pending-transactions-page';
+import { PendingTransactionsPage } from './pages/pending-transactions-page';
 import { PendingTransactionStore } from './stores/pending-transaction-store';
 
 const apiService = new ApiService();

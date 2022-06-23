@@ -8,7 +8,6 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('HomePage: Auto go to wallet page');
     navigate('/wallet');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -46,7 +45,7 @@ export const HomePage = () => {
         </div>
       </Header>
 
-      <Content className="bg-white">
+      <Content className="bg-light">
         <Outlet />
       </Content>
     </Layout>

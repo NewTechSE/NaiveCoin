@@ -8,7 +8,7 @@ import TransactionItem from '../components/transaction-item';
 
 export interface IPendingTransactionsPageProps {}
 
-export default function PendingTransactionsPage(props: IPendingTransactionsPageProps) {
+export function PendingTransactionsPage(props: IPendingTransactionsPageProps) {
   const storeContext = useContext(StoreContext);
   const walletStore = storeContext.walletStore;
   const pendingTransactionStore = storeContext.pendingTransactionStore;
@@ -35,7 +35,7 @@ export default function PendingTransactionsPage(props: IPendingTransactionsPageP
 
   return (
     <div className="container">
-      <div className="mx-auto w-75 shadow rounded p-4 m-3">
+      <div className="mx-auto w-75 shadow rounded p-4 m-3 bg-white">
         <Observer>
           {() =>
             pendingTransactionStore.isLoading ? (
@@ -65,10 +65,13 @@ export default function PendingTransactionsPage(props: IPendingTransactionsPageP
                 {pendingTransactionStore.pendingTransactions.length <= 0 ? (
                   <Empty />
                 ) : (
-                  <Space>
-                    {pendingTransactionStore.pendingTransactions.map((tx, index) => (
-                      <TransactionItem key={index} transaction={tx} wallet={walletStore.wallet} />
-                    ))}
+                  <Space direction="vertical">
+                    {pendingTransactionStore.pendingTransactions
+                      .slice()
+                      .sort((a, b) => b.timestamp! - a.timestamp!)
+                      .map((tx, index) => (
+                        <TransactionItem key={index} transaction={tx} wallet={walletStore.wallet} />
+                      ))}
                   </Space>
                 )}
               </>

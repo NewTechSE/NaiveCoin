@@ -65,7 +65,7 @@ export class BlockchainService {
       throw new HttpException(400, 'Transaction is not valid');
     }
 
-    if (transaction.amount <= 0) {
+    if (!transaction.amount && transaction.amount <= 0) {
       throw new HttpException(400, 'Transaction amount must be greater than 0');
     }
 
