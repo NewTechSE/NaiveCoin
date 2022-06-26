@@ -1,6 +1,8 @@
 # NaiveCoin
 
-A simple demonstration of blockchain
+A simple demonstration of blockchain.
+
+Demo: https://youtu.be/AGXmlOKNXqQ
 
 ## How to run the app
 
