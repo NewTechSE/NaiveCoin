@@ -19,7 +19,8 @@
     "make:migration": "knex migrate:make --knexfile=knexfile.ts -x ts --env development",
     "deploy:prod": "npm run build && pm2 start ecosystem.config.js --only prod && pm2 log",
     "deploy:dev": "pm2 start ecosystem.config.js --only dev && pm2 log",
-    "deploy:restart-prod": "pm2 restart ecosystem.config.js --only prod && pm2 log"
+    "deploy:restart-prod": "pm2 restart ecosystem.config.js --only prod && pm2 log",
+    "stop": "pm2 kill"
   },
   "dependencies": {
     "@types/sqlite3": "^3.1.8",
