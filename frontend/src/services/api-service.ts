@@ -2,7 +2,7 @@ import axios from 'axios';
 import { IBlockModel } from '../models/block-model';
 import { ITransactionModel } from '../models/transaction-model';
 
-const HOST = 'http://localhost:3001/blockchain';
+const HOST = process.env.REACT_APP_HOST;
 
 axios.interceptors.request.use(request => {
   console.log(

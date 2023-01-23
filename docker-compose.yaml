@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  backend:
+    container_name: backend
+    ports:
+      - "3001:3001"
+    build: ./backend
+    environment:
+      - ORIGIN=*
+  frontend:
+    container_name: frontend
+    ports:
+      - "3000:80"
+    build:
+      context: ./frontend
+    volumes:
+      - node_modules:/app/node_modules
+    environment:
+      - REACT_APP_HOST=http://localhost:3001/blockchain
+      - NODE_ENV=production
+    depends_on:
+      - backend
+volumes:
+  node_modules:
